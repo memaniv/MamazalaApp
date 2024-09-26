@@ -1,3 +1,3 @@
 # Mamazala App
 
-Welcome to Mamazala App.
+Welcome to Mamazala App!
