@@ -27,3 +27,35 @@ Please select one of the following options:<br>
 Your choice:<br>
 </i>
 
+<br><br>
+Please select one of the following options:<br>
+1 - sell items<br>
+2 - exit<br>
+Your choice: 1<br>
+
+Sell items...<br><br>
+
+Please enter item code: BB
+Brown Bread[BB] costs R15.50. We only have 10 available.
+What quantity do you want? 5
+
+The total amount due is R77.50
+
+Do you want to buy more? (Y/N): Y
+
+Please enter item code: WB
+White Bread[WB] costs R12.50. We only have 20 available.
+What quantity do you want? 5
+
+The total amount due is R140.00
+
+Do you want to buy more? (Y/N): N
+
+The total amount due is R140.0
+Please tender amount: R200
+Thank you for the support. Your change is R60.00
+
+Please select one of the following options:
+1 - sell items
+2 - exit
+Your choice:
