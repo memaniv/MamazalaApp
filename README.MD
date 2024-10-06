@@ -16,13 +16,14 @@ When the application starts, the user is asked to enter login details.
 <br>
 <i>
 Please enter username: employee
+<br>
 Please enter password: 123
-
+<br>
 Welcome...
-
-Please select one of the following options:
-1 - sell items
-2 - exit
-Your choice:
+<br>
+Please select one of the following options:<br>
+1 - sell items<br>
+2 - exit <br>
+Your choice:<br>
 </i>
 
