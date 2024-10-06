@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 public class SphazaShopApp{
 	public static void main(String[] args){
@@ -10,6 +11,7 @@ public class SphazaShopApp{
 		boolean tryAgain = false, yes, insufficient, reenter;
 		String username, password, item, code, itemAtI, itemAtJ, codeAtI, codeAtJ;
 		Scanner sc = new Scanner(System.in);
+		DecimalFormat df = new DecimalFormat("0.00");
 		String[] items = {"Brown Bread", "White Bread", "Atchar", "Eggs", "Milk", "Colgate"};
 		String[] codes = {"BB", "WB", "AR", "EG", "MK", "CO"};
 		int[] quantities	   = {10, 20, 25, 40, 5, 35};
@@ -52,7 +54,7 @@ public class SphazaShopApp{
 												   "Item: " + item + "\n" +
 												   "Code: " + code + "\n" +
 												   "Quantity: " + qty + "\n" +
-												   "Unit price: R" + unitPrice);
+												   "Unit price: R" + df.format(unitPrice));
 							}
 							break;
 						case 2:
@@ -131,7 +133,7 @@ public class SphazaShopApp{
 							System.out.println("\nDetails of best selling item " + "\n" +
 												   "Item: " + item + "\n" +
 												   "Code: " + code + "\n" +
-												   "Amount made: R" + amountMade);
+												   "Amount made: R" + df.format(amountMade));
 							break;
 						case 4:
 							System.out.println("\nView least selling stock item...");
@@ -182,7 +184,7 @@ public class SphazaShopApp{
 							System.out.println("\nDetails of least selling item " + "\n" +
 												   "Item: " + item + "\n" +
 												   "Code: " + code + "\n" +
-												   "Amount made: R" + amountMade);
+												   "Amount made: R" + df.format(amountMade));
 							break;
 						case 5:
 							System.out.println("\nView total amount made...");
@@ -193,7 +195,7 @@ public class SphazaShopApp{
 								tot =  tot + amountMade;
 							}
 							
-							System.out.println("The total amount made today is R" + tot);
+							System.out.println("The total amount made today is R" + df.format(tot));
 							
 							break;
 						default:
@@ -243,25 +245,37 @@ public class SphazaShopApp{
 								unitPrice = unitPrices[index];
 								item = items[index];
 								availableQty = quantities[index];
-								System.out.println(item + "[" + code + "]" + " costs R" + unitPrice + ". We only have " + availableQty + " available.");
+								System.out.println(item + "[" + code + "]" + " costs R" + df.format(unitPrice) + ". We only have " + availableQty + " available.");
 								
-								do {
-									//item found. get quantity at the index						
-									System.out.print("What quantity do you want? ");
-									qty = sc.nextInt();
-									
-									//do we have the quantity
-									if(qty > availableQty){
-										System.out.println("We only have " + quantities[index] + " available. Please re-enter.");
-										reenter = true;
-									} else {
-										//determine total quantity
-										amtDue = unitPrice * qty;
-										totAmtDue = totAmtDue + amtDue;
-										System.out.println("\nThe total amount due is R" + totAmtDue);
-										reenter = false;
-									}	
-								} while(reenter);
+								if(availableQty != 0) {
+									do {
+										//item found. get quantity at the index						
+										System.out.print("What quantity do you want? ");
+										qty = sc.nextInt();
+										
+										//do we have the quantity
+										if(qty > availableQty){
+											System.out.println("We only have " + quantities[index] + " available. Please re-enter.");
+											reenter = true;
+										} else {
+											//determine total quantity
+											amtDue = unitPrice * qty;
+											totAmtDue = totAmtDue + amtDue;
+											System.out.println("\nThe total amount due is R" + df.format(totAmtDue));
+											reenter = false;
+											
+											//update quantity
+											availableQty = availableQty - qty;
+											quantities[index] = availableQty;
+											
+											amountMade = amountMadePerItem[index];
+											amountMade = amountMade + amtDue;
+											amountMadePerItem[index] = amountMade;
+										}	
+									} while(reenter);
+								} else {
+									System.out.println("Sorry, " + code + " is depleted.");
+								}
 							} else {
 								System.out.println("\nItem code " + code + " not found");
 							}
@@ -285,7 +299,7 @@ public class SphazaShopApp{
 							
 							if(amtTendered > totAmtDue){
 								changeAmt = amtTendered - totAmtDue;
-								System.out.println("Thank you for the support. Your change is R" + changeAmt);
+								System.out.println("Thank you for the support. Your change is R" + df.format(changeAmt));
 								insufficient = false;
 							} else {
 								System.out.println("Insufficient amount. Please re-enter.");
