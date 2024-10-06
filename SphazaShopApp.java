@@ -3,10 +3,11 @@ import java.util.Scanner;
 public class SphazaShopApp{
 	public static void main(String[] args){
 		//declare variables
-		int choice, qty, qtyAtI, qtyAtJ;
-		double unitPrice, amountMade, unitPriceAtI, unitPriceAtJ, amountMadeFromItemAtI, amountMadeFromItemAtJ;
+		int choice, qty, qtyAtI, qtyAtJ, availableQty;
+		double unitPrice, amountMade, unitPriceAtI, unitPriceAtJ, amountMadeFromItemAtI, amountMadeFromItemAtJ,
+		changeAmt, amtTendered, amtDue;
 		char response = 'N';
-		boolean tryAgain = false;
+		boolean tryAgain = false, yes, insufficient, reenter;
 		String username, password, item, code, itemAtI, itemAtJ, codeAtI, codeAtJ;
 		Scanner sc = new Scanner(System.in);
 		String[] items = {"Brown Bread", "White Bread", "Atchar", "Eggs", "Milk", "Colgate"};
@@ -224,6 +225,73 @@ public class SphazaShopApp{
 					if(choice == 1){
 						//sell
 						System.out.println("\nSell items...");
+						
+						double totAmtDue = 0;
+						
+						do {						
+							System.out.print("\nPlease enter item code: ");
+							code = sc.next();
+							
+							//get item unit price
+							int index = 0;
+							
+							while((index < items.length) && (!codes[index].equals(code))){
+								index++;
+							}
+							
+							if(index != items.length){
+								unitPrice = unitPrices[index];
+								item = items[index];
+								availableQty = quantities[index];
+								System.out.println(item + "[" + code + "]" + " costs R" + unitPrice + ". We only have " + availableQty + " available.");
+								
+								do {
+									//item found. get quantity at the index						
+									System.out.print("What quantity do you want? ");
+									qty = sc.nextInt();
+									
+									//do we have the quantity
+									if(qty > availableQty){
+										System.out.println("We only have " + quantities[index] + " available. Please re-enter.");
+										reenter = true;
+									} else {
+										//determine total quantity
+										amtDue = unitPrice * qty;
+										totAmtDue = totAmtDue + amtDue;
+										System.out.println("\nThe total amount due is R" + totAmtDue);
+										reenter = false;
+									}	
+								} while(reenter);
+							} else {
+								System.out.println("\nItem code " + code + " not found");
+							}
+							
+							System.out.print("\nDo you want to buy more? (Y/N): ");
+							response = sc.next().charAt(0);
+											
+							if(response == 'Y'){
+								yes = true;
+							} else {
+								yes = false;
+							}	
+						} while(yes);
+						
+						//display total
+						do {
+							System.out.println("\nThe total amount due is R" + totAmtDue);
+							
+							System.out.print("Please tender amount: R");
+							amtTendered = sc.nextDouble();
+							
+							if(amtTendered > totAmtDue){
+								changeAmt = amtTendered - totAmtDue;
+								System.out.println("Thank you for the support. Your change is R" + changeAmt);
+								insufficient = false;
+							} else {
+								System.out.println("Insufficient amount. Please re-enter.");
+								insufficient = true;
+							}
+						} while(insufficient);						
 					} else {
 						System.out.println("\n" + choice + " is invalid.");
 					}
