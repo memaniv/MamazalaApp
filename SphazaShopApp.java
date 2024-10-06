@@ -3,16 +3,17 @@ import java.util.Scanner;
 public class SphazaShopApp{
 	public static void main(String[] args){
 		//declare variables
-		int choice, qty;
-		double unitPrice;
+		int choice, qty, qtyAtI, qtyAtJ;
+		double unitPrice, amountMade, unitPriceAtI, unitPriceAtJ, amountMadeFromItemAtI, amountMadeFromItemAtJ;
 		char response = 'N';
 		boolean tryAgain = false;
-		String username, password, item, code;
+		String username, password, item, code, itemAtI, itemAtJ, codeAtI, codeAtJ;
 		Scanner sc = new Scanner(System.in);
 		String[] items = {"Brown Bread", "White Bread", "Atchar", "Eggs", "Milk", "Colgate"};
 		String[] codes = {"BB", "WB", "AR", "EG", "MK", "CO"};
 		int[] quantities	   = {10, 20, 25, 40, 5, 35};
 		double[] unitPrices = {15.50, 12.50, 16.79, 99.99, 38.99, 16.00};
+		double[] amountMadePerItem = {15.50, 12.50, 16.79, 99.99, 38.99, 16.00};
 		
 		do {		
 			//prompt for password
@@ -60,21 +61,21 @@ public class SphazaShopApp{
 							code = sc.next();
 							
 							//check if code is existent
-							int i = 0;
-							while((i < items.length) && (!codes[i].equals(code))){
-								i++;
+							int index = 0;
+							while((index < items.length) && (!codes[index].equals(code))){
+								index++;
 							}
 							
-							if(i != items.length){
+							if(index != items.length){
 								//item found. get quantity at the inde						
 								System.out.print("Update quantity by how much? ");
 								qty = sc.nextInt();
 								
 								//determine new quantity
-								qty = qty + quantities[i];
+								qty = qty + quantities[index];
 								
 								//store
-								quantities[i] = qty;
+								quantities[index] = qty;
 							} else {
 								System.out.println("\nItem code " + code + " not found");
 							}
@@ -82,12 +83,117 @@ public class SphazaShopApp{
 							break;
 						case 3:
 							System.out.println("\nView best selling stock item...");
+							
+							//sort the items first
+							for(int i = 0; i < amountMadePerItem.length -1; i++){
+								for(int j = i + 1; j < amountMadePerItem.length; j++){
+									amountMadeFromItemAtI = amountMadePerItem[i];
+									amountMadeFromItemAtJ = amountMadePerItem[j];
+									
+									if(amountMadeFromItemAtI < amountMadeFromItemAtJ){
+										amountMadePerItem[i] = amountMadeFromItemAtJ;
+										amountMadePerItem[j] = amountMadeFromItemAtI;
+										
+										itemAtI = items[i];
+										itemAtJ = items[j];
+										
+										codeAtI = codes[i];
+										codeAtJ = codes[j];
+										
+										qtyAtI = quantities[i];
+										qtyAtJ = quantities[j];
+										
+										unitPriceAtI = unitPrices[i];
+										unitPriceAtJ = unitPrices[j];
+										
+										//swap										
+										items[i] = itemAtJ;
+										items[j] = itemAtI;
+										
+										codes[i] = codeAtJ;
+										codes[j] = codeAtI;
+										
+										quantities[i] = qtyAtJ;
+										quantities[j] = qtyAtI;
+										
+										unitPrices[i] = unitPriceAtJ;
+										unitPrices[j] = unitPriceAtI;
+									}
+								}
+							}
+							
+							//best selling item
+							item = items[0];
+							code = codes[0];
+							amountMade = amountMadePerItem[0];
+							
+							System.out.println("\nDetails of best selling item " + "\n" +
+												   "Item: " + item + "\n" +
+												   "Code: " + code + "\n" +
+												   "Amount made: R" + amountMade);
 							break;
 						case 4:
 							System.out.println("\nView least selling stock item...");
+							
+							//sort the items first
+							for(int i = 0; i < amountMadePerItem.length -1; i++){
+								for(int j = i + 1; j < amountMadePerItem.length; j++){
+									amountMadeFromItemAtI = amountMadePerItem[i];
+									amountMadeFromItemAtJ = amountMadePerItem[j];
+									
+									if(amountMadeFromItemAtI < amountMadeFromItemAtJ){
+										amountMadePerItem[i] = amountMadeFromItemAtJ;
+										amountMadePerItem[j] = amountMadeFromItemAtI;
+										
+										itemAtI = items[i];
+										itemAtJ = items[j];
+										
+										codeAtI = codes[i];
+										codeAtJ = codes[j];
+										
+										qtyAtI = quantities[i];
+										qtyAtJ = quantities[j];
+										
+										unitPriceAtI = unitPrices[i];
+										unitPriceAtJ = unitPrices[j];
+										
+										//swap										
+										items[i] = itemAtJ;
+										items[j] = itemAtI;
+										
+										codes[i] = codeAtJ;
+										codes[j] = codeAtI;
+										
+										quantities[i] = qtyAtJ;
+										quantities[j] = qtyAtI;
+										
+										unitPrices[i] = unitPriceAtJ;
+										unitPrices[j] = unitPriceAtI;
+									}
+								}
+							}
+							
+							//best selling item
+							item = items[items.length -1];
+							code = codes[items.length -1];
+							amountMade = amountMadePerItem[items.length -1];
+							
+							System.out.println("\nDetails of least selling item " + "\n" +
+												   "Item: " + item + "\n" +
+												   "Code: " + code + "\n" +
+												   "Amount made: R" + amountMade);
 							break;
 						case 5:
 							System.out.println("\nView total amount made...");
+							double tot = 0;
+							
+							for(int i = 0; i < amountMadePerItem.length; i++){
+								amountMade = amountMadePerItem[i];
+								tot =  tot + amountMade;
+							}
+							
+							System.out.println("The total amount made today is R" + tot);
+							
 							break;
 						default:
 							System.out.println("\n" + choice + " is invalid.");
