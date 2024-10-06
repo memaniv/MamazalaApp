@@ -3,11 +3,16 @@ import java.util.Scanner;
 public class SphazaShopApp{
 	public static void main(String[] args){
 		//declare variables
-		int choice;
+		int choice, qty;
+		double unitPrice;
 		char response = 'N';
 		boolean tryAgain = false;
-		String username, password;
+		String username, password, item, code;
 		Scanner sc = new Scanner(System.in);
+		String[] items = {"Brown Bread", "White Bread", "Atchar", "Eggs", "Milk", "Colgate"};
+		String[] codes = {"BB", "WB", "AR", "EG", "MK", "CO"};
+		int[] quantities	   = {10, 20, 25, 40, 5, 35};
+		double[] unitPrices = {15.50, 12.50, 16.79, 99.99, 38.99, 16.00};
 		
 		do {		
 			//prompt for password
@@ -34,6 +39,19 @@ public class SphazaShopApp{
 					switch(choice){
 						case 1:
 							System.out.println("\nView stock...");
+							
+							for(int i = 0; i < items.length; i++){
+								item = items[i];
+								code = codes[i];
+								qty = quantities[i];
+								unitPrice = unitPrices[i];
+								
+								System.out.println("\nDetails of item " + (i + 1) + "\n" +
+												   "Item: " + item + "\n" +
+												   "Code: " + code + "\n" +
+												   "Quantity: " + qty + "\n" +
+												   "Unit price: R" + unitPrice);
+							}
 							break;
 						case 2:
 							System.out.println("\nUpdate stock...");
