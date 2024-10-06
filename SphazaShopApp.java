@@ -27,7 +27,7 @@ public class SphazaShopApp{
 				//display menu
 				System.out.print("\nPlease select one of the following options: " + "\n" +
 								   "1 - view current stock" + "\n" +
-								   "2 - update stock" +
+								   "2 - update stock" + "\n" +
 								   "3 - view best selling stock item" + "\n" +
 								   "4 - view least selling stock item" + "\n" +
 								   "5 - view total amount made" + "\n" +
@@ -55,6 +55,30 @@ public class SphazaShopApp{
 							break;
 						case 2:
 							System.out.println("\nUpdate stock...");
+							
+							System.out.print("Please enter item code: ");
+							code = sc.next();
+							
+							//check if code is existent
+							int i = 0;
+							while((i < items.length) && (!codes[i].equals(code))){
+								i++;
+							}
+							
+							if(i != items.length){
+								//item found. get quantity at the inde						
+								System.out.print("Update quantity by how much? ");
+								qty = sc.nextInt();
+								
+								//determine new quantity
+								qty = qty + quantities[i];
+								
+								//store
+								quantities[i] = qty;
+							} else {
+								System.out.println("\nItem code " + code + " not found");
+							}
+							
 							break;
 						case 3:
 							System.out.println("\nView best selling stock item...");
@@ -72,7 +96,7 @@ public class SphazaShopApp{
 					//display menu again
 					System.out.print("\nPlease select one of the following options: " + "\n" +
 									   "1 - view current stock" + "\n" +
-									   "2 - update stock" +
+									   "2 - update stock" + "\n" +
 									   "3 - view best selling stock item" + "\n" +
 									   "4 - view least selling stock item" + "\n" +
 									   "5 - view total amount made" + "\n" +
